@@ -1,0 +1,17 @@
+{
+	"name": "moveforward/eventapi",
+	"description": "A Silverstripe interface for the Eventfinder API.",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe", "eventapi", "eventfinder"],
+	"authors": [
+	{
+		"name": "Paul Bennett",
+		"email": "paul@moveforward.co.nz"
+	}
+	],
+	"require":
+	{
+		"silverstripe/framework": "~3.1",
+		"silverstripe/cms": "~3.1"
+	}
+}
