@@ -29,7 +29,7 @@ class EventApi extends Extension {
 
 		$config = Config::inst();
 
-		return $this->api_connect(array('rows', 1)) ? true : false;;
+		return $this->api_connect('rows=1')) ? true : false;;
 
 	}
 
