@@ -13,9 +13,9 @@ class EventApi extends Extension {
 	function __construct() {
 		$config = Config::inst();
 	
-		self::$api_endpoint = $config->get('EventApi', 'eventFinderApiEndPoint'); // update later to switch endpoints depending upon query type 
-		self::$api_username = $config->get('EventApi', 'eventFinderUsername');
-		self::$api_password = $config->get('EventApi', 'eventFinderPassword');
+		$this->$api_endpoint = $config->get('EventApi', 'eventFinderApiEndPoint'); // update later to switch endpoints depending upon query type 
+		$this->$api_username = $config->get('EventApi', 'eventFinderUsername');
+		$this->$api_password = $config->get('EventApi', 'eventFinderPassword');
 
 	}
 
@@ -29,7 +29,7 @@ class EventApi extends Extension {
 
 		$config = Config::inst();
 
-		return self::api_connect() ? true : false;;
+		return $this->api_connect() ? true : false;;
 
 	}
 
@@ -72,10 +72,13 @@ class EventApi extends Extension {
 	*/
 	public function get_data(Array $qsParams) {
 
-		if(!self::$api_connection_tested) {
-			if(!self::testConnection()) {
+		if(!$this->$api_connection_tested) {
+			if(!$this->testConnection()) {
 				// TODO: log error
 				return false;
+			}
+			else {
+				$this->$api_connection_tested = true;
 			}
 		}
 		
@@ -83,10 +86,10 @@ class EventApi extends Extension {
 
 
 		if(!empty($qsParams)) {
-			$qs = self::setQueryString($qsParams);
+			$qs = $this->setQueryString($qsParams);
 		}
 
-		$data = self::api_connect();
+		$data = $this->api_connect();
 
 		// format as array
 		return Convert::jsontoarray($data);
