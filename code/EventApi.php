@@ -33,7 +33,7 @@ class EventApi extends Extension {
 
 	public static function api_connect($query_string = null) {
 
-		var $qs = '';
+		$qs = '';
 
 		if($query_string && strlen($query_string) > 0) {
 			$qs = '?' . $query_string;
