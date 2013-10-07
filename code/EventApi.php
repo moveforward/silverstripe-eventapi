@@ -29,12 +29,6 @@ class EventApi extends Extension {
 
 		$config = Config::inst();
 
-		echo 'endpoint : ' . self::$api_endpoint . '<br>'; // update later to switch endpoints depending upon query type 
-		echo 'username : ' . self::$api_username . '<br>';
-		echo 'password : ' . self::$api_password . '<br>';
-
-
-
 		return self::api_connect() ? true : false;;
 
 	}
@@ -46,13 +40,6 @@ class EventApi extends Extension {
 		if($query_string && strlen($query_string) > 0) {
 			$qs = '?' . $query_string;
 		}
-
-		$process = curl_init(self::$api_endpoint . $qs);
-		curl_setopt($process, CURLOPT_USERPWD, self::$api_username . ":" . self::$api_password);
-		curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
-		$result = curl_exec($process);
-
-		print_r($result);
 
 		return $result;
 	}
