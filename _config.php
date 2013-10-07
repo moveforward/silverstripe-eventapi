@@ -1,3 +1,2 @@
 <?php
-
-EventApi::set_api_endpoint('http://www.eventfinder.co.nz/api/v2/');
+// nothing to see here. Please move along
