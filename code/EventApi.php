@@ -25,7 +25,7 @@ class EventApi extends Extension {
 	@param null
 	@return boolean
 	*/
-	public static function test_connection() {
+	public function test_connection() {
 
 		$config = Config::inst();
 
@@ -39,7 +39,7 @@ class EventApi extends Extension {
 
 	}
 
-	public static function api_connect($query_string = null) {
+	public function api_connect($query_string = null) {
 
 		$qs = '';
 
@@ -62,7 +62,7 @@ class EventApi extends Extension {
 	@param $parameters Array - key: value pairs
 	@return String
 	*/
-	public static function set_query_string(Array $parameters) {
+	public function set_query_string(Array $parameters) {
 		$qs = '?';
 
 		foreach ($parameters as $key => $value) {
@@ -104,11 +104,5 @@ class EventApi extends Extension {
 		// format as array
 		return Convert::jsontoarray($data);
 	}
-
-
-
-
-
-
 
 }
