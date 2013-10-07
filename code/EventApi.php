@@ -2,10 +2,10 @@
 
 class EventApi extends Extension {
 
-	private static $api_endpoint = '';
-	private static $api_username = '';
-	private static $api_password = ''; 
-	private static $api_connection_tested = false;
+	private $api_endpoint = '';
+	private $api_username = '';
+	private $api_password = ''; 
+	private $api_connection_tested = false;
 
 	/*
 	constructor
@@ -13,9 +13,9 @@ class EventApi extends Extension {
 	function __construct() {
 		$config = Config::inst();
 	
-		$this->$api_endpoint = $config->get('EventApi', 'eventFinderApiEndPoint'); // update later to switch endpoints depending upon query type 
-		$this->$api_username = $config->get('EventApi', 'eventFinderUsername');
-		$this->$api_password = $config->get('EventApi', 'eventFinderPassword');
+		$this->api_endpoint = $config->get('EventApi', 'eventFinderApiEndPoint'); // update later to switch endpoints depending upon query type 
+		$this->api_username = $config->get('EventApi', 'eventFinderUsername');
+		$this->api_password = $config->get('EventApi', 'eventFinderPassword');
 
 	}
 
