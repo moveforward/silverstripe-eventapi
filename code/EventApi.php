@@ -27,7 +27,7 @@ class EventApi extends Extension {
 	*/
 	public static function test_connection() {
 
-		$data = self::api_connect();
+		return self::api_connect() ? true : false;;
 
 	}
 
