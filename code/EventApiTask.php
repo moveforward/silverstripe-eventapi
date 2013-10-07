@@ -7,7 +7,7 @@ class EventApiTask extends BuildTask {
 
 
 	// controller action to be run by default
-	function run() {
+	function run($request) {
 
 		echo EventApi::test_connection();
 
