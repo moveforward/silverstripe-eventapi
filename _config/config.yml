@@ -1,3 +1,4 @@
 EventApi:
-  accountName: test
-  accountKey: test
+  eventFinderUsername: test
+  eventFinderPassword: test
+  eventFinderApiEndPoint: http://api.eventfinder.co.nz/v2/events.json

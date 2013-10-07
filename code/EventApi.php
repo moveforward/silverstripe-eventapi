@@ -3,36 +3,46 @@
 class EventApi extends Extension {
 
 	private static $api_endpoint = '';
+	private static $api_username = '';
+	private static $api_password = ''; 
+	private static $api_connection_tested = false;
 
 	/*
-	set the api endpoint we will be querying
+	constructor
 	*/
-	public static function set_api_endpoint($url) {
-		self::$api_endpoint = $url;
-	}
-
-	/*
-	get the configured username & key
-	@param null
-	@return Array - key / value pair for credentials
-	*/
-	public static function get_credentials() {
-		$config = Config::inst();
-		$username = $config->get('username');
-		$password = $config->get('password');
-
-		return array('username' => $username, 'password' => $password);
+	public static function __construct() {
+		$config = Config::Inst();
+	
+		self::$api_endpoint = $config->get('eventFinderApiEndpoint'); // update later to switch endpoints depending upon query type 
+		self::$api_username = $config->get('eventFinderUsername');
+		self::$api_password = $config->get('eventFinderPassword');
 
 	}
 
 
 	/*
-	test the connection to see if it is up / working
+	test the connection before we query for 
 	@param null
 	@return boolean
 	*/
 	public static function test_connection() {
 
+		$data = self::api_connect();
+
+	}
+
+	public static function api_connect($query_string = null) {
+
+		var $qs = '';
+
+		if($query_string && strlen($query_string) > 0) {
+			$qs = '?' . $query_string;
+		}
+
+		$process = curl_init(self::$api_endpoint . $qs);
+		curl_setopt($process, CURLOPT_USERPWD, self::$api_username . ":" . self::$api_password);
+		curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+		return curl_exec($process);
 	}
 
 	/*
@@ -48,6 +58,7 @@ class EventApi extends Extension {
 		}
 
 		if(strlen($qs) > 0) {
+			// strip last &
 			$qs = substr($qs, 0, strlen($qs) - 1);
 		}
 
@@ -56,35 +67,30 @@ class EventApi extends Extension {
 
 	/*
 	get latest data
+	@param String $qsParams - query string parameters to pass to query 
 	@param $modified_since DateTime
 	@return Array - structured event data 
 	*/
 	public function get_data(Array $qsParams) {
-		
-		var $url = self::$api_endpoint;
 
-		if(!self::testConnection()) {
-			// TODO: log error
-			return false;
+		if(!self::$api_connection_tested) {
+			if(!self::testConnection()) {
+				// TODO: log error
+				return false;
+			}
 		}
+		
+		$qs = '';
+
 
 		if(!empty($qsParams)) {
 			$qs = self::setQueryString($qsParams);
-			$url .= '?' . $qs;
 		}
-		// add user credentials
-		$credentials = self::get_credentials();
 
-		// get data
-		$feed = new RestfulService($url);
-	   	$conn = $feed->request()->getBody();
-	    $attr = $feed->getAttributes($conn, "event");
-	    //print_r($attr);
+		$data = self::api_connect();
 
 		// format as array
-		return Convert::XMLtoArray($attr);
-
-		// return
+		return Convert::jsontoarray($data);
 	}
 
 
