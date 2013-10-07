@@ -10,7 +10,7 @@ class EventApi extends Extension {
 	/*
 	constructor
 	*/
-	public static function __construct() {
+	function __construct() {
 		$config = Config::Inst();
 	
 		self::$api_endpoint = $config->get('eventFinderApiEndpoint'); // update later to switch endpoints depending upon query type 
