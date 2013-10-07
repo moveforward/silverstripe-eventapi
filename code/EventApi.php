@@ -72,13 +72,13 @@ class EventApi extends Extension {
 	*/
 	public function get_data(Array $qsParams) {
 
-		if(!$this->$api_connection_tested) {
+		if(!$this->api_connection_tested) {
 			if(!$this->testConnection()) {
 				// TODO: log error
 				return false;
 			}
 			else {
-				$this->$api_connection_tested = true;
+				$this->api_connection_tested = true;
 			}
 		}
 		
