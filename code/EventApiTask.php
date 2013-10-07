@@ -9,7 +9,9 @@ class EventApiTask extends BuildTask {
 	// controller action to be run by default
 	function run($request) {
 
-		echo EventApi::test_connection();
+		$result = EventApi::test_connection();
+
+		echo $result ? 'EventFinder Connection functioning' : 'EventFinder Connection parameters incorrect'; 
 
 	}
 	
