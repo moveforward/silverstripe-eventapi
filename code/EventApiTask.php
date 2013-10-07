@@ -10,7 +10,7 @@ class EventApiTask extends BuildTask {
 	function run($request) {
 
 		$ef = new EventApi;
-		$result = EventApi->test_connection();
+		$result = $ef->test_connection();
 
 		echo $result ? 'EventFinder Connection functioning' : 'EventFinder Connection parameters incorrect'; 
 
