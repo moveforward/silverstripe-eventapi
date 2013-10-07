@@ -50,7 +50,11 @@ class EventApi extends Extension {
 		$process = curl_init(self::$api_endpoint . $qs);
 		curl_setopt($process, CURLOPT_USERPWD, self::$api_username . ":" . self::$api_password);
 		curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
-		return curl_exec($process);
+		$result = curl_exec($process);
+
+		print_r($result);
+
+		return $result;
 	}
 
 	/*
