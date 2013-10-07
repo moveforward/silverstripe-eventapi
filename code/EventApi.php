@@ -29,7 +29,7 @@ class EventApi extends Extension {
 
 		$config = Config::inst();
 
-		return $this->api_connect() ? true : false;;
+		return $this->api_connect(array('rows', 1)) ? true : false;;
 
 	}
 
@@ -73,7 +73,7 @@ class EventApi extends Extension {
 	public function get_data(Array $qsParams) {
 
 		if(!$this->api_connection_tested) {
-			if(!$this->testConnection()) {
+			if(!$this->test_connection()) {
 				// TODO: log error
 				return false;
 			}
