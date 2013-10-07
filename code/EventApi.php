@@ -13,9 +13,9 @@ class EventApi extends Extension {
 	function __construct() {
 		$config = Config::inst();
 	
-		self::$api_endpoint = $config->get('eventFinderApiEndpoint'); // update later to switch endpoints depending upon query type 
-		self::$api_username = $config->get('eventFinderUsername');
-		self::$api_password = $config->get('eventFinderPassword');
+		self::$api_endpoint = $config->get('EventApi', 'eventFinderApiEndpoint'); // update later to switch endpoints depending upon query type 
+		self::$api_username = $config->get('EventApi', 'eventFinderUsername');
+		self::$api_password = $config->get('EventApi', 'eventFinderPassword');
 
 	}
 
@@ -29,9 +29,9 @@ class EventApi extends Extension {
 
 		$config = Config::inst();
 
-		echo 'endpoint : ' . $config->get('eventFinderApiEndpoint') . '<br>'; // update later to switch endpoints depending upon query type 
-		echo 'username : ' . $config->get('eventFinderUsername') . '<br>';
-		echo 'password : ' . $config->get('eventFinderPassword') . '<br>';
+		echo 'endpoint : ' . $config->get('EventApi', 'eventFinderApiEndpoint') . '<br>'; // update later to switch endpoints depending upon query type 
+		echo 'username : ' . $config->get('EventApi', 'eventFinderUsername') . '<br>';
+		echo 'password : ' . $config->get('EventApi', 'eventFinderPassword') . '<br>';
 
 
 
