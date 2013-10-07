@@ -11,7 +11,7 @@ class EventApi extends Extension {
 	constructor
 	*/
 	function __construct() {
-		$config = Config::Inst();
+		$config = Config::inst();
 	
 		self::$api_endpoint = $config->get('eventFinderApiEndpoint'); // update later to switch endpoints depending upon query type 
 		self::$api_username = $config->get('eventFinderUsername');
@@ -26,6 +26,8 @@ class EventApi extends Extension {
 	@return boolean
 	*/
 	public static function test_connection() {
+
+		$config = Config::inst();
 
 		echo 'endpoint : ' . $config->get('eventFinderApiEndpoint') . '<br>'; // update later to switch endpoints depending upon query type 
 		echo 'username : ' . $config->get('eventFinderUsername') . '<br>';
