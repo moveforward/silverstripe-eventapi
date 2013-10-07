@@ -27,6 +27,12 @@ class EventApi extends Extension {
 	*/
 	public static function test_connection() {
 
+		echo 'endpoint : ' . $config->get('eventFinderApiEndpoint') . '<br>'; // update later to switch endpoints depending upon query type 
+		echo 'username : ' . $config->get('eventFinderUsername') . '<br>';
+		echo 'password : ' . $config->get('eventFinderPassword') . '<br>';
+
+
+
 		return self::api_connect() ? true : false;;
 
 	}
