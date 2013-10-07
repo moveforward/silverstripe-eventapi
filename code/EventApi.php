@@ -50,7 +50,7 @@ class EventApi extends Extension {
 	}
 
 	/*
-	set up query string for API request
+	utiliuty function to set up query string from array key / value pairs
 	@param $parameters Array - key: value pairs
 	@return String
 	*/
@@ -75,7 +75,7 @@ class EventApi extends Extension {
 	@param $modified_since DateTime
 	@return Array - structured event data 
 	*/
-	public function get_data(Array $qsParams) {
+	public function get_data(Array $qsParams, String $modified_since) {
 
 		if(!$this->api_connection_tested) {
 			if(!$this->test_connection()) {
@@ -94,7 +94,7 @@ class EventApi extends Extension {
 			$qs = $this->setQueryString($qsParams);
 		}
 
-		$data = $this->api_connect();
+		$data = $this->api_connect($qs);
 
 		// format as array
 		return Convert::jsontoarray($data);
