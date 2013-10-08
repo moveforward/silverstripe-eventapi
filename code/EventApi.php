@@ -41,7 +41,7 @@ class EventApi extends Extension {
 			$qs = '?' . $query_string;
 		}
 
-		$process = curl_init($this->api_endpoint);
+		$process = curl_init($this->api_endpoint . $qs);
 		curl_setopt($process, CURLOPT_USERPWD, $this->api_username . ":" . $this->api_password);
 		curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
 		$event_data = curl_exec($process);
@@ -70,12 +70,12 @@ class EventApi extends Extension {
 	}
 
 	/*
-	get latest data
+	get a set of data from EF based on queries and modified date
 	@param String $qsParams - query string parameters to pass to query 
 	@param $modified_since DateTime
 	@return Array - structured event data 
 	*/
-	public function get_data(Array $qsParams, String $modified_since) {
+	public function ef_query(Array $qsParams, String $modified_since) {
 
 		if(!$this->api_connection_tested) {
 			if(!$this->test_connection()) {
@@ -96,10 +96,54 @@ class EventApi extends Extension {
 
 		$data = $this->api_connect($qs);
 
-		// print_r($data);
-
 		// format as array
 		return Convert::json2array($data);
+	}
+
+	/*
+	take some parameters and retunr a full result set from EF
+	- acts as a wrapper and control for multiple requests to EF via get_data()
+	- EF result sets are limited to max of 20 per query so we use this function to run repeat requests and bundle
+	the results into one array 
+	@param Array $qsParams - query string parameters to filter the query
+	@param String $modified_since - timestamp to retrieve only events updated / created since specified time
+	@return Array - events from query parameters
+	*/
+	public function get_dataset(Array $qsParams, String $modified_since) {
+
+		$qsParams['rows'] = 20; // current EF max result set limit
+		$pointer = 0; // current pointer
+		$events = array(); // container for result set
+
+		// we use the first query to determine the size of the full result set
+		// redundant but allows the while() loop to be written more clearly
+		$result = $this->ef_query($qsParams);
+
+		if(!$result) {
+			// TODO: error handling
+			return false;
+		}
+
+		$total = $result['@attributes']['count']; // full result set size
+
+		while($total > $pointer) {
+			$qsParams['offset'] = $pointer;	
+			$result = $this->ef_query($qsParams);
+			$pointer += count($result['events']);
+
+			// don't try and fetch more rows than there are results left from the offset - EF doesn't seem to like this
+			if($total - $pointer < $qsParams['rows']) {
+				$qsParams['rows'] = $total - $pointer;
+			}
+
+			foreach($result['events'] as $event) {
+				array_push($events, $event);
+			}
+			// break the query intervals up slightly - try and avoid any internal EF rate limiting
+			usleep(300);
+		}
+
+		return $events;
 	}
 
 }
