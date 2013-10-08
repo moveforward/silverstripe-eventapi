@@ -106,10 +106,11 @@ class EventApi extends Extension {
 	- EF result sets are limited to max of 20 per query so we use this function to run repeat requests and bundle
 	the results into one array 
 	@param Array $qsParams - query string parameters to filter the query
+	@param Int $limit - a hard limit on the result set size you want returned
 	@param String $modified_since - timestamp to retrieve only events updated / created since specified time
 	@return Array - events from query parameters
 	*/
-	public function get_dataset(Array $qsParams, String $modified_since) {
+	public function get_dataset(Array $qsParams, Int $limit, String $modified_since) {
 
 		$qsParams['rows'] = 20; // current EF max result set limit
 		$pointer = 0; // current pointer
