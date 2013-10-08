@@ -117,11 +117,12 @@ class EventApi extends Extension {
 	public function get_dataset(Array $qsParams, Int $limit, String $mode, String $modified_since) {
 
 
-		if($mode && $mode != 'events') {
+		if(isset($mode)) {
 			
 			$config = Config::Inst();
 
 			switch($mode) {
+
 				case 'categories':
 					$this->api_endpoint = $config->get('EventAPI', 'categoryEndPoint');
 				break;
@@ -129,6 +130,10 @@ class EventApi extends Extension {
 				case 'locations':
 					$this->api_endpoint = $config->get('EventAPI', 'locationEndPoint');
 				break;
+
+				default:
+					$this->api_endpoint = $config->get('EventAPI', 'eventEndPoint');
+				breal;
 			}
 		}
 
