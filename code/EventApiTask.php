@@ -10,7 +10,7 @@ class EventApiTask extends BuildTask {
 	function run($request) {
 
 		$ef = new EventApi;
-		$result = $ef->get_data(array('rows' => 1));
+		$result = $ef->get_data(array('category' => 6, 'location' => 363)); // music in wellington
 
 		print_r($result); 
 
