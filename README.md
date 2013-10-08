@@ -14,11 +14,13 @@ Install into the root directory of your site.
 
 # Configuration
 
-Update _config/config.yml and add you EventFinder API username and password details in the appropriate places.
+Update _config/config.yml and add your EventFinder API username and password details in the appropriate places.
 
 # Usage
 
-The module has a task set up which shows how the EventAPI module can be used. The idea of the module is that it can be integrated with the datamodel of your site and that tasks can be run periodically to refresh any Eventfinder data held by your site.
+The module has a task set up in code/EventApiTask which shows how the EventAPI module can be used. 
+You can run this task by visiting /dev/tasks on your site and selecting the 'Test Eventfinder data connection' task or by visiting /dev/tasks/EventApiTask directly.
+The idea of the module is that it can be integrated with the datamodel of your site and that tasks can be run periodically to refresh any Eventfinder data held by your site.
 
 Calling get_dataset() with any related query parameters will run multiple queries to Eventfinder to return a fuill result set based on your parameters.
 
