@@ -8,12 +8,13 @@ class EventApi extends Extension {
 	private $api_connection_tested = false;
 
 	/*
-	constructor
+	constructor for object
+	- default endpoint is events, but this can be overidden using the $mode passed to get_dataset() 
 	*/
 	function __construct() {
 		$config = Config::inst();
-	
-		$this->api_endpoint = $config->get('EventApi', 'eventFinderApiEndPoint'); // update later to switch endpoints depending upon query type 
+		
+		$this->api_endpoint = $config->get('EventApi', 'eventApiEndPoint'); // update later to switch endpoints depending upon query type 
 		$this->api_username = $config->get('EventApi', 'eventFinderUsername');
 		$this->api_password = $config->get('EventApi', 'eventFinderPassword');
 
@@ -105,12 +106,31 @@ class EventApi extends Extension {
 	- acts as a wrapper and control for multiple requests to EF via get_data()
 	- EF result sets are limited to max of 20 per query so we use this function to run repeat requests and bundle
 	the results into one array 
+	
 	@param Array $qsParams - query string parameters to filter the query
 	@param Int $limit - a hard limit on the result set size you want returned
+	@param String $mode - modifier for querying against different API endpoints
 	@param String $modified_since - timestamp to retrieve only events updated / created since specified time
+
 	@return Array - events from query parameters
 	*/
-	public function get_dataset(Array $qsParams, Int $limit, String $modified_since) {
+	public function get_dataset(Array $qsParams, Int $limit, String $mode, String $modified_since) {
+
+
+		if($mode && $mode != 'events') {
+			
+			$config = Config::Inst();
+
+			switch($mode) {
+				case 'categories':
+					$this->api_endpoint = $config->get('EventAPI', 'categoryEndPoint');
+				break;
+
+				case 'locations':
+					$this->api_endpoint = $config->get('EventAPI', 'locationEndPoint');
+				break;
+			}
+		}
 
 		$qsParams['rows'] = 20; // current EF max result set limit
 		$pointer = 0; // current pointer

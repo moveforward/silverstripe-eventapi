@@ -1,4 +1,6 @@
 EventApi:
   eventFinderUsername: test
   eventFinderPassword: test
-  eventFinderApiEndPoint: http://api.eventfinder.co.nz/v2/events.json
+  eventEndPoint: http://api.eventfinder.co.nz/v2/events.json
+  categoryEndPoint: http://api.eventfinder.co.nz/v2/categories.json
+  locationEndPoint: http://api.eventfinder.co.nz/v2/locations.json
