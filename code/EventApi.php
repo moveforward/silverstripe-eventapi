@@ -97,7 +97,7 @@ class EventApi extends Extension {
 		$data = $this->api_connect($qs);
 
 		// format as array
-		return Convert::jsontoarray($data);
+		return Convert::json2array($data);
 	}
 
 }
