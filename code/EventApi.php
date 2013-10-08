@@ -14,7 +14,7 @@ class EventApi extends Extension {
 	function __construct() {
 		$config = Config::inst();
 		
-		$this->api_endpoint = $config->get('EventApi', 'eventApiEndPoint'); // update later to switch endpoints depending upon query type 
+		$this->api_endpoint = $config->get('EventApi', 'eventEndPoint'); // update later to switch endpoints depending upon query type 
 		$this->api_username = $config->get('EventApi', 'eventFinderUsername');
 		$this->api_password = $config->get('EventApi', 'eventFinderPassword');
 
@@ -41,6 +41,8 @@ class EventApi extends Extension {
 		if($query_string && strlen($query_string) > 0) {
 			$qs = '?' . $query_string;
 		}
+
+		echo $this->api_endpoint;
 
 		$process = curl_init($this->api_endpoint . $qs);
 		curl_setopt($process, CURLOPT_USERPWD, $this->api_username . ":" . $this->api_password);
@@ -119,7 +121,7 @@ class EventApi extends Extension {
 
 		if(isset($mode)) {
 			
-			$config = Config::Inst();
+			$config = Config::inst();
 
 			switch($mode) {
 
