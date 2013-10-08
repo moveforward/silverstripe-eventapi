@@ -44,9 +44,9 @@ class EventApi extends Extension {
 		$process = curl_init($this->api_endpoint);
 		curl_setopt($process, CURLOPT_USERPWD, $this->api_username . ":" . $this->api_password);
 		curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
-		$return = curl_exec($process);
+		$event_data = curl_exec($process);
 
-		return json_decode($return);
+		return $event_data;
 	}
 
 	/*
@@ -99,7 +99,7 @@ class EventApi extends Extension {
 		print_r($data);
 
 		// format as array
-		return Convert::json2array($data);
+		return $data->events[0];
 	}
 
 }
