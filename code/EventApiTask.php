@@ -12,7 +12,11 @@ class EventApiTask extends BuildTask {
 		$ef = new EventApi;
 		$result = $ef->get_data(array('category' => 6, 'location' => 363)); // music in wellington
 
-		print_r($result); 
+		foreach($result['events'] as $event) {
+			echo '<p>' . $event['name'] . '</p>';
+		}
+
+		// print_r($result); 
 
 	}
 	
