@@ -133,7 +133,7 @@ class EventApi extends Extension {
 
 				default:
 					$this->api_endpoint = $config->get('EventAPI', 'eventEndPoint');
-				breal;
+				break;
 			}
 		}
 
