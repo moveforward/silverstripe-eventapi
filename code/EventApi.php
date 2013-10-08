@@ -91,7 +91,7 @@ class EventApi extends Extension {
 
 
 		if(!empty($qsParams)) {
-			$qs = $this->setQueryString($qsParams);
+			$qs = $this->set_query_string($qsParams);
 		}
 
 		$data = $this->api_connect($qs);
