@@ -20,20 +20,6 @@ class EventApi extends Extension {
 
 	}
 
-
-	/*
-	test the connection before we query for 
-	@param null
-	@return boolean
-	*/
-	public function test_connection() {
-
-		$config = Config::inst();
-
-		return $this->api_connect('rows=1') ? true : false;;
-
-	}
-
 	public function api_connect($query_string = null) {
 
 		$qs = '';
@@ -41,8 +27,6 @@ class EventApi extends Extension {
 		if($query_string && strlen($query_string) > 0) {
 			$qs = '?' . $query_string;
 		}
-
-		echo $this->api_endpoint;
 
 		$process = curl_init($this->api_endpoint . $qs);
 		curl_setopt($process, CURLOPT_USERPWD, $this->api_username . ":" . $this->api_password);
@@ -79,16 +63,6 @@ class EventApi extends Extension {
 	@return Array - structured event data 
 	*/
 	public function ef_query(Array $qsParams, String $modified_since) {
-
-		if(!$this->api_connection_tested) {
-			if(!$this->test_connection()) {
-				// TODO: log error
-				return false;
-			}
-			else {
-				$this->api_connection_tested = true;
-			}
-		}
 		
 		$qs = '';
 
@@ -118,30 +92,36 @@ class EventApi extends Extension {
 	*/
 	public function get_dataset(Array $qsParams, Int $limit, String $mode, String $modified_since) {
 
+		if(!isset($mode)) {
+			$mode = 'events';
+		}
+		else {
 
-		if(isset($mode)) {
-			
 			$config = Config::inst();
 
 			switch($mode) {
 
 				case 'categories':
-					$this->api_endpoint = $config->get('EventAPI', 'categoryEndPoint');
+					$this->api_endpoint = $config->get('EventApi', 'categoryEndPoint');
 				break;
 
 				case 'locations':
-					$this->api_endpoint = $config->get('EventAPI', 'locationEndPoint');
+					$this->api_endpoint = $config->get('EventApi', 'locationEndPoint');
 				break;
 
 				default:
-					$this->api_endpoint = $config->get('EventAPI', 'eventEndPoint');
+					$this->api_endpoint = $config->get('EventApi', 'eventEndPoint');
 				break;
 			}
+
 		}
 
-		$qsParams['rows'] = 20; // current EF max result set limit
+		if(!isset($qsParams['rows'])) {
+			$qsParams['rows'] = 20; // current EF max result set limit	
+		}
+		
 		$pointer = 0; // current pointer
-		$events = array(); // container for result set
+		$results = array(); // container for result set
 
 		// we use the first query to determine the size of the full result set
 		// redundant but allows the while() loop to be written more clearly
@@ -154,24 +134,37 @@ class EventApi extends Extension {
 
 		$total = $result['@attributes']['count']; // full result set size
 
+		if(isset($limit) && $limit < $total) {
+			$total = $limit;
+		}
+
+		// don't run extra queries if we don't need to
+		if($total <= $qsParams['rows']) {
+			foreach($result[$mode] as $item) {
+				array_push($results, $item);
+			}
+
+			return $results;
+		}
+
 		while($total > $pointer) {
 			$qsParams['offset'] = $pointer;	
 			$result = $this->ef_query($qsParams);
-			$pointer += count($result['events']);
+			$pointer += count($result[$mode]);
 
 			// don't try and fetch more rows than there are results left from the offset - EF doesn't seem to like this
 			if($total - $pointer < $qsParams['rows']) {
 				$qsParams['rows'] = $total - $pointer;
 			}
 
-			foreach($result['events'] as $event) {
-				array_push($events, $event);
+			foreach($result[$mode] as $item) {
+				array_push($results, $item);
 			}
 			// break the query intervals up slightly - try and avoid any internal EF rate limiting
 			usleep(300);
 		}
 
-		return $events;
+		return $results;
 	}
 
 }

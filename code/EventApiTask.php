@@ -3,7 +3,7 @@
 class EventApiTask extends BuildTask {
 
 	protected $title = "Test EventFinder data connection";
-	protected $description = "Pull 500+ event results from Event Finder API";
+	protected $description = "Pull a large set of event results from Event Finder API";
 
 
 	// controller action to be run by default
