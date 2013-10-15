@@ -13,7 +13,7 @@ class EventApiTask extends BuildTask {
 
 		$query_attributes = array(
 			'category' => 6, 
-			'location' => 363
+			'location' => 363,
 			'modified_since' => date('Y-m-d h:i:s', strtotime('-30 days')),
 			'created_since' => date('Y-m-d h:i:s', strtotime('-30 days'))
 			); 
