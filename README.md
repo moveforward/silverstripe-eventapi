@@ -10,7 +10,7 @@ A Silverstripe3 module which provides an interface between Silverstripe and the 
 
 # Installation
 
-Install into the root directory of your site.
+Install into the root directory of your site. No other installation steps are necessary.
 
 # Configuration
 
