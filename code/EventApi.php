@@ -28,8 +28,6 @@ class EventApi extends Extension {
 			$qs = $query_string;
 		}
 
-		echo $this->api_endpoint . $qs;
-
 		$process = curl_init($this->api_endpoint . $qs);
 		curl_setopt($process, CURLOPT_USERPWD, $this->api_username . ":" . $this->api_password);
 		curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
