@@ -26,9 +26,13 @@ Calling get_dataset() with any related query parameters will run multiple querie
 
 This module is is not intended for the purpose of displaying Eventfinder data directly on your site. Latency and result set limits from Eventfinder make this type of display option impractical. 
 
-# To Do
+# Endpoints
 
-* Querying by a modification date / time has not been implemented yet
-* Current implementation is specific to querying for and returning events. Additional endpoint switches (for querying location or category data for example) will likely be added soon.
+Endpoints for Event, Location and Category are currently supported. The default endpoint is Events. To query the Location or Category endpoints, specify 'locations'
+or 'categories' as the mode attribute of EventAPI->get_dataset()
 
+# Query Parameters
+
+As an interface to the EventFinder API, the module supports any query parameters which can be passed to the EventFinder API.
+The EventApiTask provides a sample of how category, location, modified_since and created_since can be queried for
 
