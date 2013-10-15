@@ -25,8 +25,10 @@ class EventApi extends Extension {
 		$qs = '';
 
 		if($query_string && strlen($query_string) > 0) {
-			$qs = '?' . $query_string;
+			$qs = $query_string;
 		}
+
+		echo $this->api_endpoint . $qs;
 
 		$process = curl_init($this->api_endpoint . $qs);
 		curl_setopt($process, CURLOPT_USERPWD, $this->api_username . ":" . $this->api_password);

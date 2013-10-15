@@ -11,7 +11,12 @@ class EventApiTask extends BuildTask {
 
 		$ef = new EventApi;
 
-		$query_attributes = array('category' => 6, 'location' => 363); 
+		$query_attributes = array(
+			'category' => 6, 
+			'location' => 363
+			'modified_since' => date('Y-m-d h:i:s', strtotime('-30 days')),
+			'created_since' => date('Y-m-d h:i:s', strtotime('-30 days'))
+			); 
 
 		$results = $ef->get_dataset($query_attributes); 
 
